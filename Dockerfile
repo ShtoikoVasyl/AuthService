@@ -1,0 +1,14 @@
+FROM amazoncorretto:21-alpine-full
+
+WORKDIR /app
+
+COPY target/my-service.jar /app/my-service.jar
+
+EXPOSE ${SERVER_PORT}
+
+ENV DISCOVERY_PASSWORD=${DISCOVERY_PASSWORD}
+ENV DISCOVERY_USERNAME=${DISCOVERY_USERNAME}
+ENV EUREKA_URL=${EUREKA_URL}
+ENV ACTIVE_PROFILE=${ACTIVE_PROFILE}
+
+ENTRYPOINT ["java", "-jar", "/app/my-service.jar"]

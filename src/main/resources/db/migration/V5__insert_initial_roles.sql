@@ -1,0 +1,9 @@
+INSERT INTO roles (id, name) VALUES (1, 'USER');
+INSERT INTO roles (id, name) VALUES (2, 'GENERAL_ADMIN');
+INSERT INTO roles (id, name) VALUES (3, 'ADMIN');
+INSERT INTO roles (id, name) VALUES (4, 'ACCOUNTS_READ');
+INSERT INTO roles (id, name) VALUES (5, 'ACCOUNTS_WRITE');
+INSERT INTO roles (id, name) VALUES (6, 'USERMANAGER_WRITE');
+INSERT INTO roles (id, name) VALUES (7, 'USERMANAGER_READ');
+INSERT INTO roles (id, name) VALUES (8, 'TERMINAL_READ');
+INSERT INTO roles (id, name) VALUES (9, 'TERMINAL_WRITE');

@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: authservice
+  profiles:
+    active: ${ACTIVE_PROFILE:dev}
+  cloud:
+    config:
+      discovery:
+        enabled: true
+      name: authservice
+      fail-fast: true
+      username: ${DISCOVERY_USERNAME}
+      password: ${DISCOVERY_PASSWORD}
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL:http://${DISCOVERY_USERNAME}:${DISCOVERY_PASSWORD}@localhost:8008/eureka/}
