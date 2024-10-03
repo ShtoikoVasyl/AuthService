@@ -22,7 +22,7 @@ public class CustomJwtAuthenticationConverter implements Converter<Jwt, Abstract
 
         String userId = jwt.getClaimAsString("user_id");
         String tokenType = jwt.getClaimAsString("type");
-        if(tokenType.equals("access")) {
+        if (tokenType.equals("access")) {
             JwtAuthenticationToken jwtAuthenticationToken = new JwtAuthenticationToken(jwt, authorities);
             jwtAuthenticationToken.setDetails(userId);
             return jwtAuthenticationToken;
@@ -32,7 +32,8 @@ public class CustomJwtAuthenticationConverter implements Converter<Jwt, Abstract
         }
     }
 
-    public void setJwtGrantedAuthoritiesConverter(Converter<Jwt, Collection<GrantedAuthority>> JwtGrantedAuthoritiesConverter) {
+    public void setJwtGrantedAuthoritiesConverter(
+        Converter<Jwt, Collection<GrantedAuthority>> JwtGrantedAuthoritiesConverter) {
         this.jwtGrantedAuthoritiesConverter = JwtGrantedAuthoritiesConverter;
     }
 }

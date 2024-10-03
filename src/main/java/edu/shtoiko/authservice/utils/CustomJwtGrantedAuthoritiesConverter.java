@@ -11,8 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-public class CustomJwtGrantedAuthoritiesConverter implements Converter<Jwt, Collection<GrantedAuthority>>{
-
+public class CustomJwtGrantedAuthoritiesConverter implements Converter<Jwt, Collection<GrantedAuthority>> {
 
     @Override
     public Collection<GrantedAuthority> convert(Jwt jwt) {
@@ -21,7 +20,7 @@ public class CustomJwtGrantedAuthoritiesConverter implements Converter<Jwt, Coll
             return List.of();
         }
         return roles.stream()
-                .map(Role::new)
-                .collect(Collectors.toList());
+            .map(Role::new)
+            .collect(Collectors.toList());
     }
 }

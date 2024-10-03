@@ -7,7 +7,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.context.request.WebRequest;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,6 +27,6 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResponseException.class)
     public ResponseEntity<?> handleUserAlreadyExistsException(ResponseException ex) {
-        return new ResponseEntity<>(ex.getMessage(),ex.getStatus());
+        return new ResponseEntity<>(ex.getMessage(), ex.getStatus());
     }
 }

@@ -23,7 +23,8 @@ public class Role implements GrantedAuthority {
     @Column(name = "name", nullable = false, unique = true)
     @NotBlank(message = "Role name cannot be blank")
     @Size(max = 30, message = "Role name cannot exceed 30 characters")
-    @Pattern(regexp = "^[A-Z_]+$", message = "Role name must contain only uppercase letters and underscores, no spaces, numbers, or special characters allowed")
+    @Pattern(regexp = "^[A-Z_]+$",
+        message = "Role name must contain only uppercase letters and underscores, no spaces, numbers, or special characters allowed")
     private String name;
 
     @Override
@@ -31,7 +32,7 @@ public class Role implements GrantedAuthority {
         return name;
     }
 
-    public Role(String name){
+    public Role(String name) {
         this.name = name;
     }
 }

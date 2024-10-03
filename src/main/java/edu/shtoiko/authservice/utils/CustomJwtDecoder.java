@@ -23,12 +23,12 @@ public class CustomJwtDecoder implements JwtDecoder {
             Claims claims = jwtTokenUtils.extractClaims(token);
 
             return Jwt.withTokenValue(token)
-                    .headers(headers -> headers.put("alg", "HS256"))
-                    .claims(claimsMap -> claimsMap.putAll(claims))
-                    .issuedAt(claims.getIssuedAt().toInstant())
-                    .expiresAt(claims.getExpiration().toInstant())
-                    .subject(claims.getSubject())
-                    .build();
+                .headers(headers -> headers.put("alg", "HS256"))
+                .claims(claimsMap -> claimsMap.putAll(claims))
+                .issuedAt(claims.getIssuedAt().toInstant())
+                .expiresAt(claims.getExpiration().toInstant())
+                .subject(claims.getSubject())
+                .build();
         } catch (Exception e) {
             OAuth2Error error = new OAuth2Error("invalid_token", "JWT validation failed", null);
             throw new JwtValidationException("Invalid JWT token", List.of(error));

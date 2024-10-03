@@ -51,11 +51,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final RoleService roleService;
 
-    //todo rewrite. UsersSession
+    // todo rewrite. UsersSession
     @Override
-    public JwtResponse loginUser(String email, String password){
+    public JwtResponse loginUser(String email, String password) {
         SecuredUser user = getSecuredUserByEmail(email);
-        if(passwordEncoder.matches(password, user.getPassword())){
+        if (passwordEncoder.matches(password, user.getPassword())) {
             JwtResponse response = tokenUtils.createNewTokenPair(user);
             userSessionService.saveSession(user, response.refreshToken());
             return response;
@@ -70,12 +70,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return getSecuredUserByEmail(username);
     }
 
-    //todo: session control
+    // todo: session control
     @Override
     public boolean registerUser(UserDto userDto) {
-        if(userRepository.existsByEmail(userDto.getEmail())){
+        if (userRepository.existsByEmail(userDto.getEmail())) {
             log.error("User with email {} already exist", userDto.getEmail());
-            throw new ResponseException(HttpStatus.CONFLICT, "User with email " + userDto.getEmail() + " already exist");
+            throw new ResponseException(HttpStatus.CONFLICT,
+                "User with email " + userDto.getEmail() + " already exist");
         }
         SecuredUser newUser = modelMapper.map(userDto, SecuredUser.class);
         newUser.setRoles(List.of(new Role(1L, "ROLE_USER")));
@@ -91,7 +92,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return "Logout successful";
     }
 
-    //todo should compare session info, exception handling
+    // todo should compare session info, exception handling
     @Override
     public JwtResponse refreshToken(String refreshToken) {
         JwtResponse newTokenPair = tokenUtils.refreshToken(refreshToken);
@@ -102,12 +103,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
     }
 
-        // todo refactor
+    // todo refactor
     @Override
     @Transactional
     public String changePassword(ChangePasswordRequest passwordRequest) {
-        SecuredUser user = userRepository.findById(Long.parseLong(passwordRequest.getUserId())).orElseThrow(EntityNotFoundException::new);
-        if(passwordEncoder.matches(passwordRequest.getPassword(), user.getPassword())){
+        SecuredUser user = userRepository.findById(Long.parseLong(passwordRequest.getUserId()))
+            .orElseThrow(EntityNotFoundException::new);
+        if (passwordEncoder.matches(passwordRequest.getPassword(), user.getPassword())) {
             user.setPassword(passwordEncoder.encode(passwordRequest.getNewPassword()));
             userRepository.save(user);
             return "password changed successfully";
@@ -119,10 +121,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public SecuredUserDto changeRoles(Long userId, List<String> roleNames) {
         List<Role> roles = roleService.getRolesByNames(roleNames);
-        if(roles.isEmpty()){
+        if (roles.isEmpty()) {
             throw new ResponseException(HttpStatus.BAD_REQUEST, "Roles not found");
         }
-        SecuredUser user = userRepository.findById(userId).orElseThrow(() -> new ResponseException(HttpStatus.BAD_REQUEST, "User not found"));
+        SecuredUser user = userRepository.findById(userId)
+            .orElseThrow(() -> new ResponseException(HttpStatus.BAD_REQUEST, "User not found"));
         user.setRoles(roles);
         return modelMapper.map(userRepository.save(user), SecuredUserDto.class);
     }
@@ -135,17 +138,18 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public SecuredUserDto getSecuredUserDtoByEmail(String email) {
         SecuredUser user = getSecuredUserByEmail(email);
-        if(user == null){
+        if (user == null) {
             throw new ResponseException(HttpStatus.BAD_REQUEST, "User not found");
         }
         return modelMapper.map(user, SecuredUserDto.class);
     }
 
-    private SecuredUser getSecuredUserById(Long id){
-        return userRepository.findById(id).orElseThrow(() -> new ResponseException(HttpStatus.BAD_REQUEST, "User not found"));
+    private SecuredUser getSecuredUserById(Long id) {
+        return userRepository.findById(id)
+            .orElseThrow(() -> new ResponseException(HttpStatus.BAD_REQUEST, "User not found"));
     }
 
-    private SecuredUser getSecuredUserByEmail(String email){
+    private SecuredUser getSecuredUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 }

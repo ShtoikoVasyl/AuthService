@@ -11,7 +11,7 @@ public class SessionScheduler {
     private final UserSessionService sessionService;
 
     @Scheduled(cron = "0 0 * * * *")
-    public void removeExpiredSessions(){
+    public void removeExpiredSessions() {
         sessionService.deleteExpiredSessions();
     }
 }

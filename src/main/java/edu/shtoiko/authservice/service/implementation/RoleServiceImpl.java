@@ -14,6 +14,7 @@ import java.util.List;
 public class RoleServiceImpl implements RoleService {
 
     private final RoleRepository roleRepository;
+
     @Override
     public List<Role> getRolesByNames(List<String> roleNames) {
         return roleRepository.findAllByNameIn(roleNames);

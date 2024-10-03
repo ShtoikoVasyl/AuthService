@@ -35,7 +35,7 @@ public class UserSessionServiceImpl implements UserSessionService {
 
     @Override
     public void deleteByRefreshToken(String refreshToken) {
-        if (!sessionRepository.existsByRefreshToken(refreshToken)){
+        if (!sessionRepository.existsByRefreshToken(refreshToken)) {
             throw new ResponseException(HttpStatus.BAD_REQUEST, "Session not found");
         }
         sessionRepository.deleteByRefreshToken(refreshToken);
@@ -43,7 +43,8 @@ public class UserSessionServiceImpl implements UserSessionService {
 
     @Override
     public boolean updateRefreshToken(String currentRefreshToken, String newRefreshToken) {
-        UserSession session = findByRefreshToken(currentRefreshToken).orElseThrow(() -> new ResponseException(HttpStatus.BAD_REQUEST, "Session not found"));
+        UserSession session = findByRefreshToken(currentRefreshToken)
+            .orElseThrow(() -> new ResponseException(HttpStatus.BAD_REQUEST, "Session not found"));
         session.setRefreshToken(newRefreshToken);
         session.setExpiresAt(tokenUtils.extractExpiration(newRefreshToken).toInstant());
         return save(session).getRefreshToken().equals(newRefreshToken);
